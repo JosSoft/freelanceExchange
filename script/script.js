@@ -12,7 +12,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const formCustomer = document.getElementById('form-customer')
     // Заказы
     const orders = []
+    const ordersTable = document.getElementById('orders')
 
+    const renderOrders = () => {
+        orders.forEach((order, i) => {
+            console.log(order);
+            ordersTable.innerHTML += `
+                <tr class="order">
+                    <td>${i + 1}</td>
+                    <td>${order.description}</td>
+                    <td class="${order.currency}"></td>
+                    <td>${order.deadline}</td>
+                </tr>`
+        })
+    }
+    //https://www.youtube.com/watch?v=I_UudO-LGKs
 
     customer.addEventListener('click', () => {
         blockChoice.style.display = 'none'
@@ -21,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     freelancer.addEventListener('click', () => {
         blockChoice.style.display = 'none'
+        renderOrders();
         blockFreelancer.style.display = 'block'
         btnExit.style.display = 'block'
     })
@@ -30,33 +45,29 @@ document.addEventListener('DOMContentLoaded', () => {
         blockFreelancer.style.display = 'none'
         blockChoice.style.display = 'block'
     })
-
     formCustomer.addEventListener('submit', event => {
         event.preventDefault()
-        // получаем все елементы
-        const obj = {}
         //debugger
+        const obj = {}
 
-        for (const elem of formCustomer.elements) {
-            if ((elem.tagName === 'INPUT' && elem.type !== 'radio') ||            
-            (elem.type === 'radio' && elem.checked) || 
-            elem.tagName === 'TEXTAREA') {
+        //for (const elem of formCustomer.elements) {
+        //[...formCustomer.elements].forEach(elem => {
+        Array.from(formCustomer.elements).forEach(elem => {
+
+            if ((elem.tagName === 'INPUT' && elem.type !== 'radio') ||
+                (elem.type === 'radio' && elem.checked) ||
+                elem.tagName === 'TEXTAREA') {
+
                 obj[elem.name] = elem.value
-                
-                // очищаем значения
-                if (elem.type !== 'radio') {
-                    elem.value = ''
-                }
             }
-        }
+        })
+
         orders.push(obj)
-
-        
-        // ДЗ через фильтр переписать
-        //elements.filter(()=>{})
-
         console.log(orders)
+
+        formCustomer.reset(); // сбрасываем форму
     })
+
 
 
 })
