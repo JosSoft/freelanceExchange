@@ -44,17 +44,18 @@ document.addEventListener('DOMContentLoaded', () => {
             countBlock = document.querySelector('.count'),
             phoneBlock = document.querySelector('.phone');
 
-            console.log(orders)
+            debugger
             titleBlock.textContent = order.title
             firstNameBlock.textContent = order.firstName
             descriptionBlock.innerHTML = order.description
             deadlineBlock.textContent = order.deadline
-            countBlock.textContent = order.count
-
-            //currencyBlock
+            countBlock.textContent = order.amount
 
             emailBlock.setAttribute('href', order.email)
+            emailBlock.textContent = order.email
             phoneBlock.setAttribute('href', order.phone)
+
+            currencyBlock.classList.add(order.currency)
 
 
         modal.style.display = 'block'
