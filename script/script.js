@@ -33,38 +33,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const openModal = numberOrder => {
         const order = orders[numberOrder]
-        const modal = order.active ? modalOrderActive : modalOrder
-        
-        const titleBlock = document.querySelector('.modal-title'),
-            firstNameBlock = document.querySelector('.firstName'),
-            emailBlock = document.querySelector('.email'),
-            descriptionBlock = document.querySelector('.description'),
-            deadlineBlock = document.querySelector('.deadline'),
-            currencyBlock = document.querySelector('.currency_img'),
-            countBlock = document.querySelector('.count'),
-            phoneBlock = document.querySelector('.phone');
+        // деструктивное присвоение
+        const {
+            title,
+            firstName,
+            email = '#',
+            phone = '#',
+            description,
+            amount,
+            currency,
+            deadline,
+            active = true
+        } = order
 
-            debugger
-            titleBlock.textContent = order.title
-            firstNameBlock.textContent = order.firstName
-            descriptionBlock.innerHTML = order.description
-            deadlineBlock.textContent = order.deadline
-            countBlock.textContent = order.amount
+        const modal = active ? modalOrderActive : modalOrder
 
-            emailBlock.setAttribute('href', order.email)
-            emailBlock.textContent = order.email
-            phoneBlock.setAttribute('href', order.phone)
+        const titleBlock = modal.querySelector('.modal-title'),
+            firstNameBlock = modal.querySelector('.firstName'),
+            emailBlock = modal.querySelector('.email'),
+            descriptionBlock = modal.querySelector('.description'),
+            deadlineBlock = modal.querySelector('.deadline'),
+            currencyBlock = modal.querySelector('.currency_img'),
+            countBlock = modal.querySelector('.count'),
+            phoneBlock = modal.querySelector('.phone');
 
-            currencyBlock.classList.add(order.currency)
+        titleBlock.textContent = title
+        firstNameBlock.textContent = firstName
+        descriptionBlock.textContent = description
+        deadlineBlock.textContent = deadline
+        countBlock.textContent = amount
+        emailBlock.textContent = email
+        emailBlock.href = 'mailto:' + email
+        currencyBlock.classList.add(currency)
+        phoneBlock ? phoneBlock.href = 'tel:' + phone : ''
 
-
-        modal.style.display = 'block'
+        modal.style.display = 'flex'
         // позаботимся о выходе
         modal.querySelector('.close').addEventListener('click', () => {
             modal.style.display = ''
         })
-   
     }
+
+    //https://www.youtube.com/watch?v=IjDeuGLC0jo
 
     ordersTable.addEventListener('click', event => {
         const target = event.target
@@ -75,7 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
             openModal(targetOrder.dataset.numberOrder)
         }
     })
-
     customer.addEventListener('click', () => {
         blockChoice.style.display = 'none'
         blockCustomer.style.display = 'block'
@@ -102,8 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
         //[...formCustomer.elements].forEach(elem => {
         Array.from(formCustomer.elements).forEach(elem => {
 
-            if ((elem.tagName === 'INPUT' && 
-                (elem.type !== 'radio' || elem.type !== 'submit')) ||
+            if ((elem.tagName === 'INPUT' && elem.type !== 'radio') ||
                 (elem.type === 'radio' && elem.checked) ||
                 elem.tagName === 'TEXTAREA') {
 
@@ -112,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
 
         orders.push(obj)
-        //console.log(obj)
+        console.log(obj)
         formCustomer.reset(); // сбрасываем форму
     })
 
