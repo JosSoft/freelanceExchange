@@ -11,18 +11,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Froms
     const formCustomer = document.getElementById('form-customer')
     // Заказы
-    const orders = []
+    const orders = JSON.parse(localStorage.getItem('freeOrder')) || []
+    console.log(orders)
     const ordersTable = document.getElementById('orders')
     // Модальнве окна
     const modalOrder = document.getElementById('order_read')
     const modalOrderActive = document.getElementById('order_active')
 
+    const toStorage = () => localStorage.setItem('freeOrder', JSON.stringify(orders))
+    
     // Создание заказов
     const renderOrders = () => {
         ordersTable.textContent = ''
         orders.forEach((order, i) => {
             ordersTable.innerHTML += `
-                <tr class="order" data-number-order="${i}">
+                <tr class="order ${order.active ? 'taken' : ''}" 
+                    data-number-order="${i}">
                     <td>${i + 1}</td>
                     <td>${order.description}</td>
                     <td class="${order.currency}"></td>
@@ -31,22 +35,59 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     }
 
+    const handlerMode = event => {
+        const target = event.target
+        const modal = target.closest('.order-modal') 
+        const order = orders[modal.id] // заказ
+
+        const baseAction = () =>{
+
+            
+        }
+        // закрытие модальной формы
+        if (target.closest('.close') || target === modal) {
+            modal.style.display = 'none'
+        }
+        // взять заказ
+        if (target.classList.contains('get-order')) {
+            order.active = true
+            modal.style.display = 'none'
+            toStorage()
+            renderOrders()
+        }
+        // отказаться
+        if (target.id === 'capitulation') {
+            order.active = false
+            modal.style.display = 'none'
+            toStorage()
+            renderOrders()
+        }
+        // выполнить
+        if (target.id === 'ready') {
+            orders.splice(orders.indexOf(order), 1) // ищем индекс взятого заказа и удаляем
+            modal.style.display = 'none'
+            toStorage()
+            renderOrders()
+        }
+    }
+
     const openModal = numberOrder => {
         const order = orders[numberOrder]
         // деструктивное присвоение
         const {
             title,
             firstName,
-            email = '#',
-            phone = '#',
+            email,
+            phone,
             description,
             amount,
             currency,
             deadline,
-            active = true
+            active
         } = order
 
         const modal = active ? modalOrderActive : modalOrder
+        modal.id = numberOrder
 
         const titleBlock = modal.querySelector('.modal-title'),
             firstNameBlock = modal.querySelector('.firstName'),
@@ -64,17 +105,18 @@ document.addEventListener('DOMContentLoaded', () => {
         countBlock.textContent = amount
         emailBlock.textContent = email
         emailBlock.href = 'mailto:' + email
+        currencyBlock.className = 'currency_img'
         currencyBlock.classList.add(currency)
+        
+        //if (phoneBlock) phoneBlock.href = 'tel:' + phone
         phoneBlock ? phoneBlock.href = 'tel:' + phone : ''
-
+        //phoneBlock && (phoneBlock.href = 'tel:' + phone) 
+        
         modal.style.display = 'flex'
-        // позаботимся о выходе
-        modal.querySelector('.close').addEventListener('click', () => {
-            modal.style.display = ''
-        })
-    }
 
-    //https://www.youtube.com/watch?v=IjDeuGLC0jo
+        // выход
+        modal.addEventListener('click', handlerMode)
+    }
 
     ordersTable.addEventListener('click', event => {
         const target = event.target
@@ -120,7 +162,8 @@ document.addEventListener('DOMContentLoaded', () => {
         })
 
         orders.push(obj)
-        console.log(obj)
+        toStorage()
+        //console.log(obj)
         formCustomer.reset(); // сбрасываем форму
     })
 

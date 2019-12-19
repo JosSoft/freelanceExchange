@@ -39,7 +39,7 @@
 
 					<div class="mb-3">
 						<label for="title">Заголовок (краткое описание задачи)</label>
-						<input type="text" class="form-control" id="title" name="title" required value="заголовок">
+						<input type="text" class="form-control" id="title" name="title" required placeholder="Заголовок">
 					</div>
 					<div class="row">
 						<div class="col-md-4 mb-3">
@@ -63,7 +63,7 @@
 						<label for="description">Описание</label>
 						<textarea type="text" class="form-control" id="description" name="description"
 							placeholder="Поднобно опишите задачу" rows="4"
-							required>Lorem ipsum dolor sit amet, consectetur.</textarea>
+							required></textarea>
 					</div>
 
 					<div class="row">
@@ -71,7 +71,7 @@
 
 							<div class="mb-3">
 								<label for="amount">Количество</label>
-								<input type="number" class="form-control" id="amount" name="amount" required value="10">
+								<input type="number" class="form-control" id="amount" name="amount" required min="1" placeholder="1">
 							</div>
 							<div class="d-flex justify-content-center">
 								<label class="currency">
@@ -124,7 +124,7 @@
 						</tr>
 					</thead>
 					<tbody id="orders">
-						<tr class="order taken">
+						<!-- <tr class="order taken">
 							<td>4</td>
 							<td>Lorem</td>
 							<td class="shawarma"></td>
@@ -141,7 +141,7 @@
 							<td>Lorem</td>
 							<td class="shawarma"></td>
 							<td>2020-02-14</td>
-						</tr>
+						</tr> -->
 
 
 					</tbody>
