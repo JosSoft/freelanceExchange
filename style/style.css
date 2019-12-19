@@ -15,7 +15,7 @@ main {
     opacity: 0;
 }
 
-.currency__radio:checked + .img__radio {
+.currency__radio:checked+.img__radio {
     filter: none;
     border-color: tomato;
 }
@@ -118,4 +118,12 @@ main {
     top: 3rem;
     right: 1rem;
     padding: 0.5rem 3rem;
+}
+
+.head-sort {
+    cursor: pointer;
+}
+
+.head-sort:hover {
+    background-color: rgba(0, 0, 0, 0.7) !important;
 }

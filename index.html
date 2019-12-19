@@ -39,7 +39,8 @@
 
 					<div class="mb-3">
 						<label for="title">Заголовок (краткое описание задачи)</label>
-						<input type="text" class="form-control" id="title" name="title" required placeholder="Заголовок">
+						<input type="text" class="form-control" id="title" name="title" required
+							placeholder="Заголовок">
 					</div>
 					<div class="row">
 						<div class="col-md-4 mb-3">
@@ -62,8 +63,7 @@
 					<div class="mb-3">
 						<label for="description">Описание</label>
 						<textarea type="text" class="form-control" id="description" name="description"
-							placeholder="Поднобно опишите задачу" rows="4"
-							required></textarea>
+							placeholder="Поднобно опишите задачу" rows="4" required></textarea>
 					</div>
 
 					<div class="row">
@@ -71,7 +71,8 @@
 
 							<div class="mb-3">
 								<label for="amount">Количество</label>
-								<input type="number" class="form-control" id="amount" name="amount" required min="1" placeholder="1">
+								<input type="number" class="form-control" id="amount" name="amount" required min="1"
+									placeholder="1">
 							</div>
 							<div class="d-flex justify-content-center">
 								<label class="currency">
@@ -115,12 +116,12 @@
 			<h1>FreeShavuha</h1>
 			<div class="table-responsive">
 				<table class="table table-bordered table-hover table-sm">
-					<thead class="thead-dark">
+					<thead class="thead-dark" id="headTable">
 						<tr>
 							<th>#</th>
-							<th>Основная задача</th>
-							<th>Валюта</th>
-							<th>Дедлайн</th>
+							<th class="head-sort" id="taskSort">Основная задача</th class="head-sort" id="taskSort">
+							<th class="head-sort" id="currencySort">Валюта</th>
+							<th class="head-sort" id="deadlineSort">Дедлайн</th>
 						</tr>
 					</thead>
 					<tbody id="orders">
